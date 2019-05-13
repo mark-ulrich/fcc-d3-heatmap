@@ -23,7 +23,7 @@ const drawGraph = (data) => {
   const chartDimensions = {
     width: 1620,
     height: 600,
-    padding: { top: 100, bottom: 150, left: 100 }
+    padding: { top: 100, bottom: 150, right: 100, left: 100 }
   };
   const titleX = 470;
   const titleY = 50;
@@ -53,7 +53,7 @@ const drawGraph = (data) => {
   const xDomain = years;
   const xRange = [
     chartDimensions.padding.left,
-    chartDimensions.width - chartDimensions.padding.left
+    chartDimensions.width - chartDimensions.padding.right
   ];
 
   const yDomain = [...Array(12).keys()];
@@ -283,6 +283,12 @@ const drawAxes = (
         chartDimensions.padding.bottom})`
     )
     .call(xAxis);
+
+  // WARNING: ugly hack to fix axis length
+  const path = document.getElementById('x-axis').firstElementChild;
+  const [start, end] = path.getAttribute('d').split('H');
+  const newPath = `${start}H${end - 104}`;
+  path.setAttribute('d', newPath);
 
   svg
     .append('g')
