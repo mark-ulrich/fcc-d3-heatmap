@@ -191,7 +191,7 @@ const drawLegend = (svg) => {
   const axis = d3.axisBottom(legendScale);
   legend
     .append('g')
-    .attr('transform', `translate(${legendBoxWidth},540)`)
+    .attr('transform', `translate(${legendBoxWidth - 1},540)`)
     .call(axis);
 
   legend
@@ -247,7 +247,6 @@ const drawXLabel = (svg) => {
     .attr('id', 'x-label')
     .attr('x', xLabelX)
     .attr('y', xLabelY)
-    // .attr('transform', `rotate(270, ${xLabelX}, ${xLabelY})`)
     .text('Year');
 };
 
