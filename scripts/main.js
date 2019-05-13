@@ -64,27 +64,25 @@ const drawGraph = (data) => {
   const xScale = d3
     .scaleBand()
     .domain(xDomain)
-    .rangeRound(xRange);
-
+    .rangeRound(xRange)
+    .align(0);
   const yScale = d3
     .scaleBand()
     .domain(yDomain)
     .rangeRound(yRange)
-    .padding(0);
+    .align(1);
 
   drawAxes(chartDimensions, cellWidth, cellHeight, months, xScale, yScale, svg);
-
   drawYLabel(svg);
   drawXLabel(svg);
-  drawLegend(svg);
 
   // Draw cells
   cellHeight = (d3.max(yScale.range()) - d3.min(yScale.range())) / 12;
   cellWidth =
     (d3.max(xScale.range()) - d3.min(xScale.range())) / xScale.domain().length;
-  // console.log(cellHeight);
   drawCells(svg, data, baseTemp, xScale, yScale, cellWidth, cellHeight);
 
+  drawLegend(svg);
   initCellEventHandlers(baseTemp);
 };
 
@@ -98,11 +96,15 @@ const drawTooltip = (mouseCoords, data, baseTemp) => {
 
   const { year, month, variance } = data;
   tooltip.setAttribute('data-year', year);
-  const monthName = new Date(0, month, 0).toLocaleDateString('en-US', {
-    month: 'long'
-  });
+  const monthName = new Date(0, parseInt(month) + 1, 0).toLocaleDateString(
+    'en-US',
+    {
+      month: 'long'
+    }
+  );
   const temp =
     Math.round((parseFloat(baseTemp) + parseFloat(variance)) * 1000) / 1000;
+
   let markup = `
     <strong>${year} - ${monthName}</strong><br>
     ${temp}&#8451;<br>
@@ -135,7 +137,6 @@ const drawCells = (
   cellWidth,
   cellHeight
 ) => {
-  // data.monthlyVariance.map((d) => console.log(xScale(d.year)));
   svg
     .selectAll('rect')
     .data(data.monthlyVariance)
@@ -191,7 +192,7 @@ const drawLegend = (svg) => {
   const axis = d3.axisBottom(legendScale);
   legend
     .append('g')
-    .attr('transform', `translate(${legendBoxWidth - 1},540)`)
+    .attr('transform', `translate(${legendBoxWidth - 0.5},540)`)
     .call(axis);
 
   legend
@@ -263,7 +264,7 @@ const drawAxes = (
 
   const xAxis = d3
     .axisBottom(xScale)
-    .tickSizeOuter(1)
+    .tickSizeOuter(0)
     .tickValues(ticks);
 
   const yAxis = d3
@@ -278,7 +279,7 @@ const drawAxes = (
     .attr('id', 'x-axis')
     .attr(
       'transform',
-      `translate(${0}, ${chartDimensions.height -
+      `translate(${-0.5}, ${chartDimensions.height -
         chartDimensions.padding.bottom})`
     )
     .call(xAxis);
@@ -286,7 +287,7 @@ const drawAxes = (
   svg
     .append('g')
     .attr('id', 'y-axis')
-    .attr('transform', `translate(${chartDimensions.padding.left}, 0)`)
+    .attr('transform', `translate(${chartDimensions.padding.left - 1}, .5)`)
     .call(yAxis);
 };
 
