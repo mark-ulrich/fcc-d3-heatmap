@@ -39,6 +39,12 @@ body {
   font-weight: 300;
   font-size: 1rem;
 }
+#x-label {
+  fill: #333;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 1rem;
+}
 
 .legend-box {
   stroke: #333;
@@ -52,24 +58,11 @@ body {
 
 .cell {
   cursor: pointer;
-  stroke: #333;
+  /* stroke: #333; */
   /* fill-opacity: 0.7; */
 }
-
-.cell-level-1 {
-  fill: blue;
-}
-
-.cell-level-2 {
-  fill: yellow;
-}
-
-.cell-level-3 {
-  fill: orange;
-}
-
-.cell-level-4 {
-  fill: red;
+.cell:hover {
+  stroke: #333;
 }
 
 #tooltip {
@@ -81,8 +74,9 @@ body {
   border: 1px solid #333;
   border-radius: 4px;
 
-  background: #ddd;
-  color: #333;
+  background: #333;
+  color: #ddd;
+  opacity: 0.85;
 
   text-align: center;
   line-height: 1.5rem;
